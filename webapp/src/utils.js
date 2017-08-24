@@ -33,14 +33,6 @@ export function parseEntries(entries) {
       failure = true;
     }
 
-    if (parsedEntries.data[0].length > 4) {
-      for (let i = 0; i < parsedEntries.data[0].length; i++) {
-        if (i > 3) {
-          parsedEntries.data[0][3] = parsedEntries.data[0][3] + ',' + parsedEntries.data[0][i];
-        }
-      }
-    }
-
     for (let line of parsedEntries.data) {
       if (!line[0]) {
         failure = true;
@@ -109,6 +101,15 @@ export function parseEntries(entries) {
           }
         }
         line[4] = parsedEntries.data.indexOf(line) + 1;
+      }
+    }
+    for (let k = 0; k < parsedEntries.data.length; k++) {
+      if (parsedEntries.data[k].length > 4) {
+        for (let i = 0; i < parsedEntries.data[k].length; i++) {
+          if (i > 3) {
+            parsedEntries.data[k][3] = parsedEntries.data[k][3] + ',' + parsedEntries.data[k][i];
+          }
+        }
       }
     }
   }
