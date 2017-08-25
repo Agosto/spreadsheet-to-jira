@@ -100,14 +100,19 @@ export function parseEntries(entries) {
             failureMessage = `Error: Issue ${line[1]} with time ${line[2]} is not a valid amount of time`;
           }
         }
-        line[4] = parsedEntries.data.indexOf(line) + 1;
+        let entryNumber = parsedEntries.data.indexOf(line) + 1;
+        line.splice(4, 0, entryNumber);
       }
     }
+    console.log("The parsed entries at this point are... ");
+    console.log(parsedEntries);
     for (let k = 0; k < parsedEntries.data.length; k++) {
       if (parsedEntries.data[k].length > 4) {
         for (let i = 0; i < parsedEntries.data[k].length; i++) {
           if (i > 3) {
-            parsedEntries.data[k][3] = parsedEntries.data[k][3] + ',' + parsedEntries.data[k][i];
+            if(i !== 4) {
+              parsedEntries.data[k][3] = parsedEntries.data[k][3] + ',' + parsedEntries.data[k][i];
+            }
           }
         }
       }
