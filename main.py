@@ -85,7 +85,7 @@ def proxy():
                 print(e)
                 return jsonify(
                     error=True,
-                    message="Failed at line #{} beacuse error: {}".format((str(index + 1), issue))
+                    message="Failed at line #{} because of an error with issue: {}. Issue does not exist".format(str(index + 1), issue)
                 ), 400
 
             return jsonify(success=True, worklog_id=str(worklog))

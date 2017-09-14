@@ -184,7 +184,7 @@ class App extends Component {
     let newState = this.state;
     newState.entries = '';
     this.setState(newState);
-  }
+  };
 
   render() {
     return (

@@ -1,5 +1,7 @@
 import Papa from 'papaparse/papaparse.min';
 
+var parsedEntries = null;
+
 function isFloat(val) {
   let floatRegex = /^-?\d+(?:[.,]\d*?)?$/;
   if (!floatRegex.test(val)) return false;
@@ -15,15 +17,14 @@ function isNormalInteger(str) {
 
 // TODO - break out into smaller functions
 export function parseEntries(entries) {
-  entries = entries.replace(/\t/g, ',');
 
   let failure = false;
   let failureMessage = null;
-  let parsedEntries = null;
 
   if (entries === '') {
     failure = true;
-  } else {
+  }
+  else {
     parsedEntries = Papa.parse(entries, {
       header: false,
       delimiter: ',',
@@ -33,6 +34,20 @@ export function parseEntries(entries) {
       failure = true;
     }
 
+    // To cleanup the whitespace (if present) from the date, ticket, and time fields before processing
+    for (let i = 0; i < parsedEntries.data.length; i++) {
+      if (!parsedEntries.data[i][0]) {} else {
+        parsedEntries.data[i][0] = parsedEntries.data[i][0].replace(/\s/g,'');
+      }
+      if (!parsedEntries.data[i][1]) {} else {
+        parsedEntries.data[i][1] = parsedEntries.data[i][1].replace(/\s/g,'');
+      }
+      if (!parsedEntries.data[i][2]) {} else {
+        parsedEntries.data[i][2] = parsedEntries.data[i][2].replace(/\s/g,'');
+      }
+    }
+
+    console.log(parsedEntries.data);
     for (let line of parsedEntries.data) {
       if (!line[0]) {
         failure = true;
@@ -104,8 +119,6 @@ export function parseEntries(entries) {
         line.splice(4, 0, entryNumber);
       }
     }
-    console.log("The parsed entries at this point are... ");
-    console.log(parsedEntries);
     for (let k = 0; k < parsedEntries.data.length; k++) {
       if (parsedEntries.data[k].length > 4) {
         for (let i = 0; i < parsedEntries.data[k].length; i++) {
