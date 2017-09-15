@@ -1,12 +1,10 @@
 import Papa from 'papaparse/papaparse.min';
 
-var parsedEntries = null;
-
 function isFloat(val) {
   let floatRegex = /^-?\d+(?:[.,]\d*?)?$/;
-  if (!floatRegex.test(val)) return false;
+  if (!floatRegex.test(val)) {return false;}
   val = parseFloat(val);
-  if (isNaN(val)) return false;
+  if (isNaN(val)) {return false;}
   return true;
 }
 
@@ -17,9 +15,11 @@ function isNormalInteger(str) {
 
 // TODO - break out into smaller functions
 export function parseEntries(entries) {
+  entries = entries.replace(/\t/g, ',');
 
   let failure = false;
   let failureMessage = null;
+  let parsedEntries = null;
 
   if (entries === '') {
     failure = true;
@@ -37,13 +37,13 @@ export function parseEntries(entries) {
     // To cleanup the whitespace (if present) from the date, ticket, and time fields before processing
     for (let i = 0; i < parsedEntries.data.length; i++) {
       if (!parsedEntries.data[i][0]) {} else {
-        parsedEntries.data[i][0] = parsedEntries.data[i][0].replace(/\s/g,'');
+        parsedEntries.data[i][0] = parsedEntries.data[i][0].trim();
       }
       if (!parsedEntries.data[i][1]) {} else {
-        parsedEntries.data[i][1] = parsedEntries.data[i][1].replace(/\s/g,'');
+        parsedEntries.data[i][1] = parsedEntries.data[i][1].trim();
       }
       if (!parsedEntries.data[i][2]) {} else {
-        parsedEntries.data[i][2] = parsedEntries.data[i][2].replace(/\s/g,'');
+        parsedEntries.data[i][2] = parsedEntries.data[i][2].trim();
       }
     }
 
